@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bjbec4603es8c" path="res://Player/Script/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://jt2t430k8l4m" path="res://Player/Sprites/ExamplePlayerSprite.png" id="1_l8h54"]
+[ext_resource type="Script" uid="uid://cabjncmw4cp1n" path="res://Player/Script/player_state_machine.gd" id="3_btcbx"]
+[ext_resource type="Script" uid="uid://dm3n4m4xeyyug" path="res://Player/Script/state_idle.gd" id="4_gwnis"]
+[ext_resource type="Script" uid="uid://cqv72iv0ym4p0" path="res://Player/Script/state_walk.gd" id="5_k53q1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wt17y"]
 radius = 11.0
@@ -147,3 +150,12 @@ hframes = 21
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1960421234]
 libraries/ = SubResource("AnimationLibrary_00tjw")
+
+[node name="StateMachine" type="Node" parent="." unique_id=679214611]
+script = ExtResource("3_btcbx")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=2114799463]
+script = ExtResource("4_gwnis")
+
+[node name="Walk" type="Node" parent="StateMachine" unique_id=759068376]
+script = ExtResource("5_k53q1")

@@ -1,36 +1,23 @@
-class_name Player extends CharacterBody2D
+class_name player extends CharacterBody2D
 
-var move_speed: float = 100.0
+
 var cardinal_direction: Vector2 = Vector2.DOWN
 var direction: Vector2 = Vector2.ZERO
-var state: String = "idle"
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var state_machine: PlayerStateMachine = $StateMachine
 
+func _ready():
+	state_machine.Initialize(self )
+
+func _process(delta: float):
+	direction = Input.get_vector("left", "right", "up", "down")
 
 func _physics_process(delta: float):
-	# Add the gravity.
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-	if Input.is_action_pressed("sprint"):
-		move_speed = 150.0
-	else:
-		move_speed = 100.0
-
-	direction = Input.get_vector("left", "right", "up", "down")
-	
-	
-	if direction != Vector2.ZERO:
-		velocity = direction * move_speed
-	else:
-		velocity = Vector2.ZERO
 	move_and_slide()
 
-	if SetState() == true || SetDirection() == true:
-		UpdateAnimation()
-		
-	
+
 func SetDirection() -> bool:
 	var new_dir: Vector2 = cardinal_direction
 	if direction == Vector2.ZERO:
@@ -48,14 +35,8 @@ func SetDirection() -> bool:
 	sprite_2d.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 	
-func SetState() -> bool:
-	var new_state: String = "idle" if direction == Vector2.ZERO else "walk"
-	if new_state == state:
-		return false
-	state = new_state
-	return true
-	
-func UpdateAnimation() -> void:
+
+func UpdateAnimation(state: String) -> void:
 	animation_player.play(state + "_" + AnimDirection())
 
 
