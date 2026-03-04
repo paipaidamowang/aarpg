@@ -13,7 +13,8 @@ func _ready():
 
 func _process(delta: float):
 	direction = Input.get_vector("left", "right", "up", "down")
-
+	direction = direction.normalized()
+	
 func _physics_process(delta: float):
 	move_and_slide()
 

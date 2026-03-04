@@ -138,6 +138,9 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=95557980]
+collision_mask = 16
+motion_mode = 1
+wall_min_slide_angle = 0.17453292
 script = ExtResource("1_4ntmi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1613598851]
@@ -159,3 +162,5 @@ script = ExtResource("4_gwnis")
 
 [node name="Walk" type="Node" parent="StateMachine" unique_id=759068376]
 script = ExtResource("5_k53q1")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1311169138]
