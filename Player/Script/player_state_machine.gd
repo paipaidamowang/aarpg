@@ -31,7 +31,7 @@ func Initialize(_player: player) -> void:
 			states.append(c)
 	
 	if states.size() > 0:
-		states[0].player = _player
+		State.player = _player  # Godot 4.6: 通过类名访问 static var
 		ChangeState(states[0])
 		process_mode = Node.PROCESS_MODE_INHERIT
 

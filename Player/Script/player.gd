@@ -7,6 +7,8 @@ var direction: Vector2 = Vector2.ZERO
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var state_machine: PlayerStateMachine = $StateMachine
+@onready var effect_animation_player: AnimationPlayer = $Sprite2D/AttackEffectSprite/AnimationPlayer
+
 
 func _ready():
 	state_machine.Initialize(self )
@@ -28,6 +30,9 @@ func SetDirection() -> bool:
 		new_dir = Vector2.LEFT if direction.x < 0 else Vector2.RIGHT
 	elif direction.x == 0:
 		new_dir = Vector2.UP if direction.y < 0 else Vector2.DOWN
+	else:
+		# 斜向移动：y 轴优先
+		new_dir = Vector2.UP if direction.y < 0 else Vector2.DOWN
 	
 	if new_dir == cardinal_direction:
 		return false
@@ -39,6 +44,9 @@ func SetDirection() -> bool:
 
 func UpdateAnimation(state: String) -> void:
 	animation_player.play(state + "_" + AnimDirection())
+
+func PlayAttackEffect() -> void:
+	effect_animation_player.play("attack_" + AnimDirection())
 
 
 func AnimDirection() -> String:
