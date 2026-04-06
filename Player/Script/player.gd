@@ -9,6 +9,7 @@ var direction: Vector2 = Vector2.ZERO
 @onready var state_machine: PlayerStateMachine = $StateMachine
 @onready var effect_animation_player: AnimationPlayer = $Sprite2D/AttackEffectSprite/AnimationPlayer
 
+signal DirectionChanged( new_direction : Vector2 )
 
 func _ready():
 	state_machine.Initialize(self )
@@ -38,6 +39,7 @@ func SetDirection() -> bool:
 		return false
 
 	cardinal_direction = new_dir
+	DirectionChanged.emit( new_dir )
 	sprite_2d.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 	
