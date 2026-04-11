@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://c5ufyfok75m7k" path="res://Player/Audio/SwordSwoosh.wav" id="8_od3ui"]
 [ext_resource type="Script" uid="uid://bqaapoa46som6" path="res://Player/Script/PlayerInteractionsHost.gd" id="10_apopc"]
 [ext_resource type="PackedScene" uid="uid://dsj4jb73x0bbl" path="res://GeneraNodes/HurtBox/hurt_box.tscn" id="10_x3vf3"]
+[ext_resource type="Script" uid="uid://b55gbd1him8vs" path="res://Player/Script/PlayerCamera.gd" id="11_5htga"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wt17y"]
 radius = 11.0
@@ -247,6 +248,9 @@ _data = {
 &"no_attack": SubResource("Animation_lfmf2")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
+radius = 20.0
+
 [sub_resource type="Animation" id="Animation_4ntmi"]
 length = 0.001
 tracks/0/type = "value"
@@ -260,6 +264,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 39)]
 }
 
 [sub_resource type="Animation" id="Animation_00tjw"]
@@ -277,6 +293,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [21, 23]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 37.33)]
+}
 
 [sub_resource type="Animation" id="Animation_x3vf3"]
 resource_name = "attack_side"
@@ -292,6 +320,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [27, 29]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15.965, 13.815)]
 }
 
 [sub_resource type="Animation" id="Animation_apopc"]
@@ -309,6 +349,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [24, 26]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -4.315)]
+}
 
 [sub_resource type="Animation" id="Animation_btcbx"]
 resource_name = "idle_down"
@@ -325,6 +377,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/AttackHurtBox:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 35.33)]
 }
 
 [sub_resource type="Animation" id="Animation_gwnis"]
@@ -426,9 +490,6 @@ _data = {
 &"walk_up": SubResource("Animation_od3ui")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_apopc"]
-radius = 20.0
-
 [node name="Player" type="CharacterBody2D" unique_id=95557980]
 collision_mask = 16
 motion_mode = 1
@@ -459,6 +520,17 @@ hframes = 12
 libraries/ = SubResource("AnimationLibrary_lfmf2")
 autoplay = &"no_attack"
 
+[node name="AttackHurtBox" parent="Sprite2D" unique_id=1642589478 instance=ExtResource("10_x3vf3")]
+unique_name_in_owner = true
+position = Vector2(0, 39)
+collision_mask = 256
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackHurtBox" unique_id=2066821171]
+position = Vector2(0, -14.330002)
+shape = SubResource("CircleShape2D_apopc")
+debug_color = Color(0.9705711, 0, 0.45701945, 0.41960785)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1960421234]
 libraries/ = SubResource("AnimationLibrary_00tjw")
 
@@ -477,6 +549,8 @@ attack_sound = ExtResource("8_od3ui")
 decelerate_speed = 5.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1311169138]
+editor_draw_limits = true
+script = ExtResource("11_5htga")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=523354675]
 
@@ -485,12 +559,3 @@ max_polyphony = 4
 
 [node name="Interactions" type="Node2D" parent="." unique_id=535263700]
 script = ExtResource("10_apopc")
-
-[node name="HurtBox" parent="Interactions" unique_id=1642589478 instance=ExtResource("10_x3vf3")]
-position = Vector2(0, 16)
-collision_mask = 256
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/HurtBox" unique_id=2066821171]
-shape = SubResource("CircleShape2D_apopc")
-debug_color = Color(0.9705711, 0, 0.45701945, 0.41960785)
